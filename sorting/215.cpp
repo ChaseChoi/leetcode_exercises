@@ -1,6 +1,7 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
+        random_shuffle(nums.begin(), nums.end());
         return quickSelect(nums, 0, nums.size()-1, k);
     }
 private:
