@@ -8,16 +8,18 @@ private:
 
     int quickSelect(vector<int>& nums, int start, int end, int k) {
         int targetIndex = nums.size() - k;
-        if (start >= end) {
-            return nums[targetIndex];
+        int mid;
+        while (start < end) {
+            mid = partition(nums, start, end);
+            if (targetIndex == mid) {
+                return nums[mid];
+            } else if (targetIndex > mid) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
         }
-        int mid = partition(nums, start, end);
-
-        if (targetIndex > mid) {
-            return quickSelect(nums, mid + 1, end, k);
-        } else {
-            return quickSelect(nums, start, mid - 1, k);
-        }
+        return nums[start];
     }
 
     int partition(vector<int>& nums, int leftBound, int rightBound) {
