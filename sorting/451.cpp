@@ -3,25 +3,20 @@ public:
     string frequencySort(string s) {
         string result = "";
         unordered_map<char, int> freqCount;
-        int maxCount = 0;
+        map<int, string, greater <int> > countToLetter;
+
         for (const auto& letter: s) {
-            maxCount = max(++freqCount[letter], maxCount);
+            ++freqCount[letter];
         }
 
-        vector<vector<int>> countToElement(maxCount+1);
-        for (const auto& letterPair: freqCount) {
-            countToElement[letterPair.second].push_back(letterPair.first);
+        for (const auto& freqPair: freqCount) {
+            countToLetter[freqPair.second] += string(freqPair.second, freqPair.first);
         }
 
-        for (int i = countToElement.size()-1; i >= 0; --i) {
-            if (countToElement[i].size()) {
-                for (const auto& letter: countToElement[i]) {
-                    for (int j = 0; j < i; ++j) {
-                        result += letter;                        
-                    }
-                }
-            }
+        for (const auto& pair: countToLetter) {
+            result += pair.second;
         }
+        
         return result;
     }
 };
