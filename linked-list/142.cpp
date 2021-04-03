@@ -1,39 +1,35 @@
-// https://leetcode.com/problems/linked-list-cycle-ii/
-
 /**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-// [-1,-7,7,-4,19,6,  -9   ,-5,-2,-5]
-// 6
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     ListNode *next;
+*     ListNode(int x) : val(x), next(NULL) {}
+* };
+*/
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        if (head == nullptr) {
-            return nullptr;
-        }
-        ListNode* pre = head, *current = head->next;
-        if (current == nullptr) {
-            return nullptr;
-        }
-        while (current != nullptr) {
-            records.insert(pre);
-
-            // existed
-            if (records.find(current) != records.end()) {
-                return current;
+        ListNode *fast = head, *slow = head;
+        bool flag = false;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (fast == slow) {
+                flag = true;
+                break;
             }
+        }
 
-            pre = current;
-            current = current->next;
+        if (flag) {
+            fast = head;
+            while (true) {
+                if (fast == slow) {
+                    return fast;
+                }
+                fast = fast->next;
+                slow = slow->next;
+            }
         }
         return nullptr;
     }
-
-private:
-    unordered_set<ListNode*> records;
 };
