@@ -13,13 +13,25 @@ public:
             reverse(nums.begin(), nums.end());
             return;
         }
-        int max = index;
-        for (int i = index; i <= nums.size()-1; ++i) {
-            if (nums[index-1] < nums[i]) {
-                max = i;
-            }
-        }
+        int max = binarySearch(nums, index, nums.size()-1, nums[index-1]);
+        
         swap(nums[max], nums[index-1]);
         reverse(nums.begin()+index, nums.end());
+    }
+private:
+    int binarySearch(vector<int>& nums, int start, int end, int target) {
+
+        while (start < end) {
+            int mid = start + (end-start)/2;
+            if (nums[mid] > target && nums[mid+1] <= target) {
+                return mid;
+            }
+            if (nums[mid] <= target) {
+                end = mid-1;
+            } else {
+                start = mid+1;
+            }
+        }
+        return start;
     }
 };
